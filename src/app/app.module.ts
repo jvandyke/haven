@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    KanbanModule
+    KanbanModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
