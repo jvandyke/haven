@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { KanbanRoutingModule } from './kanban-routing.module';
 import { KanbanComponent } from './kanban.component';
 import { ListComponent } from '../components/list/list.component';
+import { CardComponent } from '../components/card/card.component';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { ListComponent } from '../components/list/list.component';
   ],
   declarations: [
     KanbanComponent,
-    ListComponent
+    ListComponent,
+    CardComponent
   ]
 })
 export class KanbanModule { }

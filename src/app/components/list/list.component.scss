@@ -1,6 +1,7 @@
 .hv-list {
   & {
     position: relative;
+    max-width: 300px;
     transition: box-shadow .1s ease-in-out;
     background: #fff;
     color: #666;
