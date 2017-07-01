@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { User } from './shared/kanban.model';
+import { KanbanService } from './shared/kanban.service';
 
 @Component({
   selector: 'app-kanban',
@@ -6,10 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
-
-  constructor() { }
+  lists$: Observable<User[]>
+  constructor(
+    private kanbanService: KanbanService
+  ) { }
 
   ngOnInit() {
+    this.lists$ = this.kanbanService.loadAll();
   }
 
 }
