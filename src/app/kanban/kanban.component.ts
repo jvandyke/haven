@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { User } from './shared/kanban.model';
 import { KanbanService } from './shared/kanban.service';
 
 @Component({
   selector: 'app-kanban',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './kanban.component.html',
   styleUrls: ['./kanban.component.scss']
 })
@@ -15,7 +16,8 @@ export class KanbanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lists$ = this.kanbanService.loadAll();
+    this.lists$ = this.kanbanService.todos$;
+    this.kanbanService.loadAll();
   }
 
 }

@@ -1,17 +1,3 @@
 <div class="hv-kanban" fxLayout="row" fxLayoutWrap="wrap">
-  <app-list>
-    <app-card></app-card>
-  </app-list>
-  <app-list>
-    <app-card></app-card>
-  </app-list>
-  <app-list>
-    <app-card></app-card>
-  </app-list>
-  <app-list>
-    <app-card></app-card>
-  </app-list>
-  <app-list>
-    <app-card></app-card>
-  </app-list>
+  <app-list *ngFor="let list of lists$ | async" [list]="list"></app-list>
 </div>

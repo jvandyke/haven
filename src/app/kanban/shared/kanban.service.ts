@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 // TODO: Adjust model later on.
 import { User } from './kanban.model';
@@ -21,19 +22,18 @@ export class KanbanService {
     this.baseUrl = 'http://595497246b630e00111350f1.mockapi.io/api';
     this.dataStore = { todos: [] };
     this.todosSubject = new BehaviorSubject<User[]>([]);
-    this.todos$ = this.todosSubject.asObservable();
+    this.todos$ = this.todosSubject.asObservable().distinctUntilChanged();
   }
-  loadAll(): Observable<User[]> {
-    return this.http.get(`${this.baseUrl}/users`)
+  loadAll() {
+    this.http.get(`${this.baseUrl}/users`)
       .map(this.extractData)
-      .catch(this.handleError);
-    // .subscribe(
-    // data => {
-    //   this.dataStore.todos = data;
-    //   this.todosSubject.next(Object.assign({}, this.dataStore).todos);
-    // },
-    // error => console.log('Could not load todos.')
-    // );
+      .subscribe(
+      data => {
+        this.dataStore.todos = data;
+        this.todosSubject.next(Object.assign({}, this.dataStore).todos);
+      },
+      error => this.handleError
+      );
   }
   private extractData(res: Response) {
     const body = res.json();
