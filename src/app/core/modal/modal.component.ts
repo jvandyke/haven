@@ -1,32 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
+  // animations: [
+  //   trigger('dialog', [
+  //     transition('void => *', [
+  //       style({ transform: 'scale3d(.3, .3, .3)' }),
+  //       animate(100)
+  //     ]),
+  //     transition('* => void', [
+  //       animate(100, style({ transform: 'scale3d(.0, .0, .0)' }))
+  //     ])
+  //   ])
+  // ]
 })
 export class ModalComponent {
   @Input() details;
 
-  public visible = false;
-  private visibleAnimate = false;
+  @Input() closable = true;
+  @Input() visible: boolean;
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor() { }
 
-  public show(): void {
-    this.visible = true;
-    setTimeout(() => this.visibleAnimate = true, 100);
-  }
-
-  public hide(): void {
-    this.visibleAnimate = false;
-    setTimeout(() => this.visible = false, 300);
-  }
-
-  public onContainerClicked(event: MouseEvent): void {
-    if ((<HTMLElement>event.target).classList.contains('modal')) {
-      this.hide();
-    }
+  close() {
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
   }
 
 }

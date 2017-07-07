@@ -22,7 +22,7 @@ export class KanbanComponent implements OnInit {
     this.kanbanService.loadAll();
   }
   openModal() {
-    this.modalService.showInModal({ header: 'waloa' });
+    this.modalService.show({ header: 'waloa' });
 
   }
 

@@ -7,7 +7,7 @@ export class ModalService {
   modalDetail$ = this.modalDetailSubject.asObservable();
 
   constructor() { }
-  showInModal(detail) {
+  show(detail) {
     this.modalDetailSubject.next(detail);
   }
 }

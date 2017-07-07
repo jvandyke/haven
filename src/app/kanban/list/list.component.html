@@ -12,6 +12,6 @@
     <app-card *ngFor="let task of list.tasks" [task]="task"></app-card>
   </div>
   <div class="footer">
-    <button type="button" class="hv-btn hv-btn-text">Add Task</button>
+    <button type="button" (click)="onAddTask()" class="hv-btn hv-btn-text">Add Task</button>
   </div>
 </div>

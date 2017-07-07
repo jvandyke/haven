@@ -1,2 +1,2 @@
 <router-outlet></router-outlet>
-<app-modal [details]="details"></app-modal>
+<app-modal (visibleChange)="modalVisible = $event" [visible]="modalVisible" [details]="modalDetails"></app-modal>
