@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { User } from './shared/kanban.model';
 import { KanbanService } from './shared/kanban.service';
-import { ModalService } from '../core/modal/modal.service';
+// import { ModalService } from '../core/modal/modal.service';
 
 @Component({
   selector: 'app-kanban',
@@ -13,7 +13,7 @@ import { ModalService } from '../core/modal/modal.service';
 export class KanbanComponent implements OnInit {
   lists$: Observable<User[]>
   constructor(
-    private modalService: ModalService,
+    // private modalService: ModalService,
     private kanbanService: KanbanService
   ) { }
 
@@ -21,9 +21,9 @@ export class KanbanComponent implements OnInit {
     this.lists$ = this.kanbanService.todos$;
     this.kanbanService.loadAll();
   }
-  openModal() {
-    this.modalService.show({ header: 'waloa' });
+  // openModal() {
+  //   this.modalService.show({ header: 'waloa' });
 
-  }
+  // }
 
 }

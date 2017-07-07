@@ -8,12 +8,17 @@ import { User } from '../shared/kanban.model';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  @Input()
-  list: User;
+  isTextareaOpen: boolean;
+  taskContent;
+  @Input() list: User;
 
   constructor() { }
 
   ngOnInit() {
+  }
+  onAddTask() {
+    console.log(this.taskContent);
+    this.isTextareaOpen = true;
   }
 
 }

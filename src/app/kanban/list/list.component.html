@@ -12,6 +12,7 @@
     <app-card *ngFor="let task of list.tasks" [task]="task"></app-card>
   </div>
   <div class="footer">
+    <textarea *ngIf="isTextareaOpen" [(ngModel)]="taskContent" [class.open]="isTextareaOpen" resize class="quickAddTask"></textarea>
     <button type="button" (click)="onAddTask()" class="hv-btn hv-btn-text">Add Task</button>
   </div>
 </div>

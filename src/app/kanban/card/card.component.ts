@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Task } from '../shared/kanban.model';
+import { ModalService } from '../../core/modal/modal.service';
 
 @Component({
   selector: 'app-card',
@@ -11,9 +12,12 @@ export class CardComponent implements OnInit {
   @Input()
   task: Task;
 
-  constructor() { }
+  constructor(private modalService: ModalService) { }
 
   ngOnInit() {
+  }
+  viewTask(task) {
+    this.modalService.show(task);
   }
 
 }
