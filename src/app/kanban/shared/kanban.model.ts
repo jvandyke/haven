@@ -10,11 +10,10 @@ export class Task {
 
 export class User {
   constructor(
-    public id: number,
-    public createdAt: number,
-    public name: string,
-    public imageUrl: string,
-    public tasks: Task[],
+    public uid: number,
+    public displayName: string,
+    public photoUrl: string,
+    public email: string,
   ) { }
 }
 

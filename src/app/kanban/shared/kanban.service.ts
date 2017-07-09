@@ -15,16 +15,16 @@ import { User } from './kanban.model';
 export class KanbanService {
   todos$: FirebaseListObservable<any[]>;
   todosSubject: BehaviorSubject<User[]>;
-  dataStore: {
-    todos: User[]
-  };
+  // dataStore: {
+  //   todos: User[]
+  // };
   constructor(
-    private http: Http,
+    // private http: Http,
     private db: AngularFireDatabase
   ) {
-    this.dataStore = { todos: [] };
+    // this.dataStore = { todos: [] };
     this.todosSubject = new BehaviorSubject<User[]>([]);
-    this.todos$ = db.list('/tasks');
+    this.todos$ = db.list('tasks');
   }
   // loadAll() {
   //   this.http.get(`${this.baseUrl}/users`)
@@ -37,13 +37,15 @@ export class KanbanService {
   //     error => this.handleError
   //     );
   // }
-  // quickAddTask(title) {
-  //   this.http.post(`${this.baseUrl}/users/1/tasks`, JSON.stringify({task: '11'}))
-  //     .map(response => response.json()).subscribe(data => {
-  //       this.dataStore.todos.push(data);
-  //       this._todos.next(Object.assign({}, this.dataStore).todos);
-  //     }, error => console.log('Could not create todo.'));
-  // }
+  quickAddTask() {
+    const todo = {
+      message: 'text',
+      displayName: 'this.displayName',
+      email: 'this.email',
+      timestamp: Date.now()
+    };
+    this.todos$.push(todo);
+  }
   private extractData(res: Response) {
     const body = res.json();
     return body.data || {};
