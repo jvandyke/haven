@@ -19,7 +19,7 @@ export class KanbanComponent implements OnInit {
 
   ngOnInit() {
     this.lists$ = this.kanbanService.todos$;
-    this.kanbanService.loadAll();
+    // this.kanbanService.loadAll();
   }
   // openModal() {
   //   this.modalService.show({ header: 'waloa' });

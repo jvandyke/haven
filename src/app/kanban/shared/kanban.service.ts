@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 // TODO: Adjust model later on.
 import { User } from './kanban.model';
@@ -12,29 +13,37 @@ import { User } from './kanban.model';
 
 @Injectable()
 export class KanbanService {
-  todos$: Observable<User[]>
+  todos$: FirebaseListObservable<any[]>;
   todosSubject: BehaviorSubject<User[]>;
-  baseUrl: string;
   dataStore: {
     todos: User[]
   };
-  constructor(private http: Http) {
-    this.baseUrl = 'http://595497246b630e00111350f1.mockapi.io/api';
+  constructor(
+    private http: Http,
+    private db: AngularFireDatabase
+  ) {
     this.dataStore = { todos: [] };
     this.todosSubject = new BehaviorSubject<User[]>([]);
-    this.todos$ = this.todosSubject.asObservable().distinctUntilChanged();
+    this.todos$ = db.list('/tasks');
   }
-  loadAll() {
-    this.http.get(`${this.baseUrl}/users`)
-      .map(this.extractData)
-      .subscribe(
-      data => {
-        this.dataStore.todos = data;
-        this.todosSubject.next(Object.assign({}, this.dataStore).todos);
-      },
-      error => this.handleError
-      );
-  }
+  // loadAll() {
+  //   this.http.get(`${this.baseUrl}/users`)
+  //     .map(this.extractData)
+  //     .subscribe(
+  //     data => {
+  //       this.dataStore.todos = data;
+  //       this.todosSubject.next(Object.assign({}, this.dataStore).todos);
+  //     },
+  //     error => this.handleError
+  //     );
+  // }
+  // quickAddTask(title) {
+  //   this.http.post(`${this.baseUrl}/users/1/tasks`, JSON.stringify({task: '11'}))
+  //     .map(response => response.json()).subscribe(data => {
+  //       this.dataStore.todos.push(data);
+  //       this._todos.next(Object.assign({}, this.dataStore).todos);
+  //     }, error => console.log('Could not create todo.'));
+  // }
   private extractData(res: Response) {
     const body = res.json();
     return body.data || {};

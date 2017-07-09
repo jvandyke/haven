@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { User } from '../shared/kanban.model';
+import { KanbanService } from '../shared/kanban.service';
 
 @Component({
   selector: 'app-list',
@@ -12,11 +13,14 @@ export class ListComponent implements OnInit {
   taskContent;
   @Input() list: User;
 
-  constructor() { }
+  constructor(private kanbanService: KanbanService) { }
 
   ngOnInit() {
   }
   onAddTask() {
+    if (this.isTextareaOpen) {
+
+    }
     console.log(this.taskContent);
     this.isTextareaOpen = true;
   }
