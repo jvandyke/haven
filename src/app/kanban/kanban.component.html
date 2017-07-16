@@ -1,4 +1,4 @@
-<div class="hv-kanban" fxLayout="row" fxLayoutWrap="wrap">
+<div class="hv-kanban">
   <app-list *ngFor="let list of lists$ | async" [list]="list"></app-list>
 </div>
  <button (click)="addMemberToGroup()">

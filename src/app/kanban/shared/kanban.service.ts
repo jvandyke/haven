@@ -17,7 +17,8 @@ export class KanbanService {
   todos$: FirebaseListObservable<any[]>;
   group$: FirebaseListObservable<any[]>;
   todosSubject: BehaviorSubject<User[]>;
-  currentGroup$: FirebaseListObservable<any[]>;
+  currentGroupMembers$: FirebaseListObservable<any[]>;
+  currentGroupDetails$: FirebaseListObservable<any[]>;
   currentGroupId: string = '-KpA-ufRqGs07iYCe8ot';
 
   constructor(
@@ -27,16 +28,17 @@ export class KanbanService {
     this.todosSubject = new BehaviorSubject<User[]>([]);
     this.todos$ = db.list('tasks');
     this.group$ = db.list('groups');
-    db.list(`groups/${this.currentGroupId}`).subscribe((haha) => console.log(haha));
+    this.currentGroupMembers$ = db.list(`groups/${this.currentGroupId}/members`);
+    this.currentGroupDetails$ = db.list(`groups/${this.currentGroupId}/name`);
     // this.todos$.subscribe((todo) => console.log('todo', todo))
     this.group$.$ref.on('child_added', (newGroup) => {
-      this.currentGroup$ = db.list(`groups/${newGroup.key}`);
+      this.currentGroupMembers$ = db.list(`groups/${newGroup.key}`);
       this.addMemberToCurrentGroup(this.authService.loggedInUser);
     });
   }
   addMemberToCurrentGroup(user) {
     console.log(user)
-    this.currentGroup$
+    this.currentGroupMembers$
       .$ref
       .ref
       .child('members')
