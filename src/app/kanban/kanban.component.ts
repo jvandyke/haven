@@ -18,7 +18,10 @@ export class KanbanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lists$ = this.kanbanService.currentGroup$;
+    // this.lists$ = this.kanbanService.currentGroup$;
+    if (!this.kanbanService.currentGroupId) {
+      this.createGroup('Home');
+    }
   }
   createGroup(info) {
     this.kanbanService.createGroup(info);
