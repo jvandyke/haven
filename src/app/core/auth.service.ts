@@ -36,7 +36,7 @@ export class AuthService {
     this.loggedInUser = {
       uid: auth.uid,
       displayName: auth.displayName,
-      photoUrl: auth.photoUrl,
+      photoUrl: auth.photoURL,
       email: auth.email
     }
   }

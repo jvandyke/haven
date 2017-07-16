@@ -1,6 +1,10 @@
-<!--<div class="hv-kanban" fxLayout="row" fxLayoutWrap="wrap">
+<div class="hv-kanban" fxLayout="row" fxLayoutWrap="wrap">
   <app-list *ngFor="let list of lists$ | async" [list]="list"></app-list>
-</div>-->
-<p (click)="addTask()">
-  home page man!!!
-</p>
+</div>
+ <button (click)="addMemberToGroup()">
+  add a member to your lame group!
+ </button>
+ <input #groupName type="text">
+ <button (click)="createGroup(groupName.value)">
+  create a lame-ass group
+ </button>

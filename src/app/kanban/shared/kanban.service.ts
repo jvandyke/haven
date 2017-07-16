@@ -9,34 +9,45 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 
 // TODO: Adjust model later on.
 import { User } from './kanban.model';
+import { AuthService } from '../../core/auth.service';
 
 
 @Injectable()
 export class KanbanService {
   todos$: FirebaseListObservable<any[]>;
+  group$: FirebaseListObservable<any[]>;
   todosSubject: BehaviorSubject<User[]>;
+  currentGroup$: FirebaseListObservable<any[]>;
+  currentGroupId = '-Kp8X0xM9iyGUnQbvc0h';
   // dataStore: {
   //   todos: User[]
   // };
   constructor(
-    // private http: Http,
+    private authService: AuthService,
     private db: AngularFireDatabase
   ) {
-    // this.dataStore = { todos: [] };
     this.todosSubject = new BehaviorSubject<User[]>([]);
     this.todos$ = db.list('tasks');
+    this.group$ = db.list('groups');
+    this.todos$.subscribe((todo) => console.log('todo', todo))
+    this.group$.$ref.on('child_added', (newGroup) => {
+      // this.currentGroup$ = db.list(`groups/${newGroup.key}`);
+      // console.log('group', this.currentGroup)
+    });
+    this.currentGroup$ = db.list(`groups/${this.currentGroupId}`);
+    this.currentGroup$.subscribe((haha) => console.log(haha));
   }
-  // loadAll() {
-  //   this.http.get(`${this.baseUrl}/users`)
-  //     .map(this.extractData)
-  //     .subscribe(
-  //     data => {
-  //       this.dataStore.todos = data;
-  //       this.todosSubject.next(Object.assign({}, this.dataStore).todos);
-  //     },
-  //     error => this.handleError
-  //     );
-  // }
+  loadAll() {
+    // this.http.get(`${this.baseUrl}/users`)
+    //   .map(this.extractData)
+    //   .subscribe(
+    //   data => {
+    //     this.dataStore.todos = data;
+    //     this.todosSubject.next(Object.assign({}, this.dataStore).todos);
+    //   },
+    //   error => this.handleError
+    //   );
+  }
   quickAddTask() {
     const todo = {
       message: 'text',
@@ -45,6 +56,12 @@ export class KanbanService {
       timestamp: Date.now()
     };
     this.todos$.push(todo);
+  }
+  createGroup(info) {
+    this.group$.push({ name: info });
+  }
+  addMemberToGroup() {
+    this.currentGroup$.push(this.authService.loggedInUser);
   }
   private extractData(res: Response) {
     const body = res.json();

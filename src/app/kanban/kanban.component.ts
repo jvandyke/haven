@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { User } from './shared/kanban.model';
 import { KanbanService } from './shared/kanban.service';
+import { FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-kanban',
@@ -10,18 +11,20 @@ import { KanbanService } from './shared/kanban.service';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
-  lists$: Observable<User[]>
+  lists$: FirebaseListObservable<any>
   constructor(
     // private modalService: ModalService,
     private kanbanService: KanbanService
   ) { }
 
   ngOnInit() {
-    this.lists$ = this.kanbanService.todos$;
-    // this.kanbanService.loadAll();
+    this.lists$ = this.kanbanService.currentGroup$;
   }
-  addTask() {
-    this.kanbanService.quickAddTask();
+  createGroup(info) {
+    this.kanbanService.createGroup(info);
+  }
+  addMemberToGroup() {
+    this.kanbanService.addMemberToGroup();
 
   }
 
