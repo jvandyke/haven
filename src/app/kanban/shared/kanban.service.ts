@@ -18,10 +18,8 @@ export class KanbanService {
   group$: FirebaseListObservable<any[]>;
   todosSubject: BehaviorSubject<User[]>;
   currentGroup$: FirebaseListObservable<any[]>;
-  currentGroupId: string;
-  // dataStore: {
-  //   todos: User[]
-  // };
+  currentGroupId: string = '-KpA-ufRqGs07iYCe8ot';
+
   constructor(
     private authService: AuthService,
     private db: AngularFireDatabase
@@ -29,19 +27,21 @@ export class KanbanService {
     this.todosSubject = new BehaviorSubject<User[]>([]);
     this.todos$ = db.list('tasks');
     this.group$ = db.list('groups');
-    this.todos$.subscribe((todo) => console.log('todo', todo))
+    db.list(`groups/${this.currentGroupId}`).subscribe((haha) => console.log(haha));
+    // this.todos$.subscribe((todo) => console.log('todo', todo))
     this.group$.$ref.on('child_added', (newGroup) => {
       this.currentGroup$ = db.list(`groups/${newGroup.key}`);
-      this.addUserToCurrentGroup();
+      this.addMemberToCurrentGroup(this.authService.loggedInUser);
     });
   }
-  addUserToCurrentGroup() {
+  addMemberToCurrentGroup(user) {
+    console.log(user)
     this.currentGroup$
       .$ref
       .ref
-      .child('users')
-      .child(this.authService.loggedInUser.uid.toString())
-      .set(this.authService.loggedInUser);
+      .child('members')
+      .child(user.uid.toString())
+      .set(user);
   }
   loadAll() {
     // this.http.get(`${this.baseUrl}/users`)
@@ -64,10 +64,7 @@ export class KanbanService {
     this.todos$.push(todo);
   }
   createGroup(info) {
-    this.group$.push({ users: true, name: info });
-  }
-  addMemberToGroup() {
-    this.currentGroup$.push(this.authService.loggedInUser);
+    this.group$.push({ members: true, name: info });
   }
   private extractData(res: Response) {
     const body = res.json();

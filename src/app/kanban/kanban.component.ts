@@ -18,7 +18,7 @@ export class KanbanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.lists$ = this.kanbanService.currentGroup$;
+    this.lists$ = this.kanbanService.currentGroup$;
     if (!this.kanbanService.currentGroupId) {
       this.createGroup('Home');
     }
@@ -27,7 +27,8 @@ export class KanbanComponent implements OnInit {
     this.kanbanService.createGroup(info);
   }
   addMemberToGroup() {
-    this.kanbanService.addMemberToGroup();
+
+    this.kanbanService.addMemberToCurrentGroup({ displayName: 'Sohail Asmal', uid: '1002349sdj9u', photoUrl: 'https://unsplash.it/200/300?image=1027' });
 
   }
 
