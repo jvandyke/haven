@@ -1,9 +1,13 @@
-<div class="hv-list">
+<div class="v-list">
   <div class="header">
-    <img class="image" width="100" height="100" src="{{list.photoUrl}}">
-    <div class="info">
-      <h3 class="name">{{list.displayName}}</h3>
-      <div class="metaTitle">
+    <figure class="image">
+      <a class="g-avatar "href="#">
+        <img class="img" width="100" height="100" src="{{list.photoUrl}}">
+      </a>
+    </figure>
+    <div class="g-noWrapWithEllipsis info">
+      <h3 class="g-noWrapWithEllipsis name">{{list.displayName}}</h3>
+      <div class="g-metaTitle">
         <time datetime="2016-04-01T19:00">April 01, 2016</time>
       </div>
     </div>
@@ -13,6 +17,6 @@
   </div>
   <div class="footer">
     <textarea *ngIf="isTextareaOpen" [(ngModel)]="taskContent" [class.open]="isTextareaOpen" resize class="quickAddTask"></textarea>
-    <button type="button" (click)="onAddTask()" class="hv-btn hv-btn-text">Add Task</button>
+    <button type="button" (click)="onAddTask()" class="g-btn g-btn-text">Add Task</button>
   </div>
 </div>

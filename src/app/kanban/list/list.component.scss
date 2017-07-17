@@ -1,8 +1,10 @@
-.hv-list {
+.v-list {
   & {
     position: relative;
     max-width: 300px;
     min-width: 300px;
+    min-height: 72vh;
+    max-height: 72vh;
     transition: box-shadow .1s ease-in-out;
     background: #fff;
     color: #666;
@@ -15,21 +17,22 @@
   }
   .header {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     border-bottom: 1px solid #e5e5e5;
-    padding: 15px 30px;
-  }
-  .image {
-    border-radius: 50%;
-  }
-  .info {
-    padding-left: 15px;
-  }
-  .name {
-    color: #222;
-    font-size: 24px;
-    line-height: 1.4;
+    padding: 15px 20px;
+    .image {
+      flex: 0 0 auto;
+    }
+    .info {
+      flex: 1 1 auto;
+      padding-left: 15px;
+    }
+    .name {
+      color: #222;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
   }
   .cards {
     // display: flex;
