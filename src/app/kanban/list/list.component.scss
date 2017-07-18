@@ -3,14 +3,13 @@
     position: relative;
     max-width: 300px;
     min-width: 300px;
-    min-height: 72vh;
-    max-height: 72vh;
+    height: 444px;
     transition: box-shadow .1s ease-in-out;
     background: #fff;
     color: #666;
     margin: 1em;
     padding: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
   }
   &:hover {
     box-shadow: 0 4px 5px rgba(0,0,0,0.2);
@@ -39,6 +38,10 @@
     padding: 30px 30px;
   }
   .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-top: 1px solid #e5e5e5;
     padding: 15px 30px;
   }
