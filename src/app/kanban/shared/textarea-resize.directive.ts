@@ -13,8 +13,10 @@ export class ResizeDirective implements OnInit {
 
   ngOnInit() {
     this.renderer.selectRootElement(this.nativeElement).focus();
-    this.renderer.setStyle(this.nativeElement, 'height', '44px');
     this.renderer.listen(this.nativeElement, 'input', (event) => {
+      if (!this.nativeElement.value) {
+        this.renderer.setStyle(this.nativeElement, 'height', '44px');
+      }
       this.renderer.setStyle(event.target, 'height', event.target.scrollHeight + 'px')
     })
   }
