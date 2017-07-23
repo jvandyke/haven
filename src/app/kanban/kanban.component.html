@@ -1,5 +1,5 @@
 <div class="v-kanban">
-  <app-list *ngFor="let list of lists$ | async" [list]="list"></app-list>
+  <app-list *ngFor="let list of (lists$ | async)" [list]="list"></app-list>
 </div>
  <button (click)="addMemberToGroup()">
   add a member to your lame group!

@@ -11,14 +11,14 @@ import { FirebaseListObservable } from 'angularfire2/database';
   styleUrls: ['./kanban.component.scss']
 })
 export class KanbanComponent implements OnInit {
-  lists$: FirebaseListObservable<any>
+  lists$: Observable<any>
   constructor(
     // private modalService: ModalService,
     private kanbanService: KanbanService
   ) { }
 
   ngOnInit() {
-    this.lists$ = this.kanbanService.currentGroupMembers$;
+    this.lists$ = this.kanbanService.members$;
     if (!this.kanbanService.currentGroupId) {
       this.createGroup('Home');
     }
@@ -27,8 +27,6 @@ export class KanbanComponent implements OnInit {
     this.kanbanService.createGroup(info);
   }
   addMemberToGroup() {
-
-    this.kanbanService.addMemberToCurrentGroup({ displayName: 'Sohail Asmal', uid: '1002349sdj9u', photoUrl: 'https://unsplash.it/200/300?image=1027' });
 
   }
 

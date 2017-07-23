@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
   }
   onAddTask() {
     if (this.isTextareaOpen) {
-
+      this.kanbanService.quickAddTask(this.taskContent, this.list.uid);
     }
     console.log(this.taskContent);
     this.isTextareaOpen = true;

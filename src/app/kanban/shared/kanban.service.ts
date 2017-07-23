@@ -1,49 +1,72 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 // TODO: Adjust model later on.
 import { User } from './kanban.model';
 import { AuthService } from '../../core/auth.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 @Injectable()
 export class KanbanService {
-  todos$: FirebaseListObservable<any[]>;
+  task$: FirebaseListObservable<any[]>;
   group$: FirebaseListObservable<any[]>;
-  todosSubject: BehaviorSubject<User[]>;
+  user$: FirebaseListObservable<any[]>;
+  membersSubject: BehaviorSubject<User[]>;
+  members$: Observable<User[]>;
   currentGroupMembers$: FirebaseListObservable<any[]>;
-  currentGroupDetails$: FirebaseListObservable<any[]>;
-  currentGroupId: string = '-KpA-ufRqGs07iYCe8ot';
+  currentGroupDetail$: FirebaseObjectObservable<any[]>;
+  currentGroupId = '-KpdhOO-zVg5vUsiCGTj';
+  nextMembersArr: User[] = [];
 
   constructor(
     private authService: AuthService,
     private db: AngularFireDatabase
   ) {
-    this.todosSubject = new BehaviorSubject<User[]>([]);
-    this.todos$ = db.list('tasks');
+    this.membersSubject = new BehaviorSubject<User[]>([]);
+    this.members$ = this.membersSubject.asObservable().distinctUntilChanged();
+
+    this.task$ = db.list('tasks');
     this.group$ = db.list('groups');
+    this.user$ = db.list('users');
+
+    this.currentGroupDetail$ = db.object(`groups/${this.currentGroupId}`);
     this.currentGroupMembers$ = db.list(`groups/${this.currentGroupId}/members`);
-    this.currentGroupDetails$ = db.list(`groups/${this.currentGroupId}/name`);
-    // this.todos$.subscribe((todo) => console.log('todo', todo))
-    this.group$.$ref.on('child_added', (newGroup) => {
-      this.currentGroupMembers$ = db.list(`groups/${newGroup.key}`);
-      this.addMemberToCurrentGroup(this.authService.loggedInUser);
+    this.addMemberToCurrentGroup(this.authService.loggedInUser.uid)
+      .createUser(this.authService.loggedInUser);
+
+    this.currentGroupMembers$.$ref.on('child_added', (member) => {
+      this.user$.$ref.ref.child(member.key).once('value', (user) => {
+        this.nextMembersArr.push((user.val()));
+        this.membersSubject.next(this.nextMembersArr);
+      });
     });
   }
-  addMemberToCurrentGroup(user) {
-    console.log(user)
-    this.currentGroupMembers$
-      .$ref
-      .ref
-      .child('members')
-      .child(user.uid.toString())
-      .set(user);
+
+  quickAddTask(title, assigneeId) {
+    this.task$.push({ title, assigneeId }).then((createdTask) => {
+      this.user$.$ref.ref
+        .child(assigneeId)
+        .child('tasks')
+        .child(createdTask.key)
+        .set(true);
+    })
+  }
+  createUser(user) {
+    this.user$.$ref.ref.child(user.uid).set(user);
+  }
+  addMemberToCurrentGroup(userId) {
+    this.currentGroupMembers$.$ref.ref
+      .child(userId.toString())
+      .set(true);
+
+    return this;
   }
   loadAll() {
     // this.http.get(`${this.baseUrl}/users`)
@@ -56,15 +79,7 @@ export class KanbanService {
     //   error => this.handleError
     //   );
   }
-  quickAddTask() {
-    const todo = {
-      message: 'text',
-      displayName: 'this.displayName',
-      email: 'this.email',
-      timestamp: Date.now()
-    };
-    this.todos$.push(todo);
-  }
+
   createGroup(info) {
     this.group$.push({ members: true, name: info });
   }
