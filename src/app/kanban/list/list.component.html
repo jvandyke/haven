@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="cards">
-    <app-card *ngFor="let task of list.tasks" [task]="task"></app-card>
+    <app-card *ngFor="let task of (tasks | async)" [task]="task"></app-card>
   </div>
   <div class="footer">
     <textarea *ngIf="isTextareaOpen" [(ngModel)]="taskContent" [class.open]="isTextareaOpen" resize class="quickAddTask"></textarea>

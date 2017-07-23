@@ -18,6 +18,7 @@ export class KanbanService {
   task$: FirebaseListObservable<any[]>;
   group$: FirebaseListObservable<any[]>;
   user$: FirebaseListObservable<any[]>;
+  tasksInCurrentGroup$: FirebaseListObservable<any[]>;
   membersSubject: BehaviorSubject<User[]>;
   members$: Observable<User[]>;
   currentGroupMembers$: FirebaseListObservable<any[]>;
@@ -38,8 +39,17 @@ export class KanbanService {
 
     this.currentGroupDetail$ = db.object(`groups/${this.currentGroupId}`);
     this.currentGroupMembers$ = db.list(`groups/${this.currentGroupId}/members`);
-    this.addMemberToCurrentGroup(this.authService.loggedInUser.uid)
-      .createUser(this.authService.loggedInUser);
+
+    this.tasksInCurrentGroup$ = db.list('tasks', {
+      query: {
+        orderByChild: 'groupId',
+        equalTo: this.currentGroupId
+      }
+    });
+    // this.tasksInCurrentGroup$.subscribe((task) => console.log('NEW TASK', task));
+
+    // this.addMemberToCurrentGroup(this.authService.loggedInUser.uid)
+    //   .createUser(this.authService.loggedInUser);
 
     this.currentGroupMembers$.$ref.on('child_added', (member) => {
       this.user$.$ref.ref.child(member.key).once('value', (user) => {
@@ -48,9 +58,18 @@ export class KanbanService {
       });
     });
   }
-
+  getUserTasks(assigneeId) {
+    return this.tasksInCurrentGroup$
+      .map((tasks) =>
+        tasks.filter((task) => task.assigneeId === assigneeId)
+      );
+  }
   quickAddTask(title, assigneeId) {
-    this.task$.push({ title, assigneeId }).then((createdTask) => {
+    this.task$.push({
+      title,
+      assigneeId,
+      groupId: this.currentGroupId
+    }).then((createdTask) => {
       this.user$.$ref.ref
         .child(assigneeId)
         .child('tasks')

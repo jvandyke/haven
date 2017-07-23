@@ -13,7 +13,6 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class KanbanComponent implements OnInit {
   lists$: Observable<any>
   constructor(
-    // private modalService: ModalService,
     private kanbanService: KanbanService
   ) { }
 

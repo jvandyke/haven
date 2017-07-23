@@ -9,13 +9,11 @@ import { ModalService } from '../../core/modal/modal.service';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input()
-  task: Task;
+  @Input() task: Task;
 
   constructor(private modalService: ModalService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
   viewTask(task) {
     this.modalService.show(task);
   }
