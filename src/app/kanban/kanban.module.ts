@@ -10,6 +10,8 @@ import { ListComponent } from './list/list.component';
 import { CardComponent } from './card/card.component';
 import { KanbanService } from './shared/kanban.service';
 import { ResizeDirective } from './shared/textarea-resize.directive';
+import { SharedModule } from '../shared/shared.module';
+import { EditorModule } from '../shared/editor/editor.module';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { ResizeDirective } from './shared/textarea-resize.directive';
     KanbanRoutingModule,
     FlexLayoutModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
+    EditorModule
   ],
   declarations: [
     KanbanComponent,

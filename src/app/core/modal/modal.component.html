@@ -1,8 +1,7 @@
 <div *ngIf="visible" class="dialog">
   <h5>{{details.title}}</h5>
-  <p stlye="height: 200px">
-    {{details.desc}}
-  </p>
+  <!-- <app-editor [(ngModel)]="haha"></app-editor> -->
   <button *ngIf="closable" (click)="close()" aria-label="Close" class="close">X</button>
+  {{haha}}
 </div>
 <div *ngIf="visible" class="overlay" (click)="close()"></div>
