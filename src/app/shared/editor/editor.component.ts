@@ -79,7 +79,6 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
   constructor(private elementRef: ElementRef) { }
 
   ngAfterViewInit() {
-    // const toolbarElem = this.elementRef.nativeElement.children[0];
     const modules: any = this.modules || this.defaultModules;
     let placeholder = 'Insert text here ...';
 
@@ -87,11 +86,7 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
       placeholder = this.placeholder.trim();
     }
 
-    // if (toolbarElem) {
-    //   modules['toolbar'] = toolbarElem;
-    // }
-    // this.elementRef.nativeElement.insertAdjacentHTML('beforeend', '<div quill-editor-element></div>');
-    this.editorElem = this.elementRef.nativeElement.children[0];
+    this.editorElem = this.elementRef.nativeElement.querySelector('.editor');
 
     this.quillEditor = new Quill(this.editorElem, {
       modules: modules,
