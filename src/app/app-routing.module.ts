@@ -4,9 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { AuthGuardService } from './core/auth-guard.service';
+import { EditorComponent } from './shared/editor/editor.component';
 
 const routes: Routes = [
-  { path: '', canActivate: [AuthGuardService], loadChildren: 'app/kanban/kanban.module#KanbanModule' },
+  // { path: '', canActivate: [AuthGuardService], loadChildren: 'app/kanban/kanban.module#KanbanModule' },
   { path: 'login', component: LoginPageComponent },
 ];
 

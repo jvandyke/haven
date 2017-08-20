@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { environment } from '../environments/environment';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { FormsModule } from '@angular/forms';
+import { EditorModule } from './shared/editor/editor.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     KanbanModule,
+    FormsModule,
+    EditorModule,
     CoreModule.forRoot()
   ],
   providers: [],

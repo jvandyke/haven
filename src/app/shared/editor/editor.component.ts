@@ -1,3 +1,4 @@
+import { Editor } from './editor';
 import {
   AfterViewInit,
   Component,
@@ -17,7 +18,6 @@ import {
   Validator
 } from '@angular/forms';
 
-import * as Quill from 'quill';
 
 @Component({
   selector: 'app-editor',
@@ -33,42 +33,7 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
 
   quillEditor: any;
   editorElem: HTMLElement;
-  emptyArray: any[] = [];
   content: any;
-  defaultModules = {
-    toolbar: [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-      ['blockquote', 'code-block'],
-
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
-
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ 'color': this.emptyArray.slice() }, { 'background': this.emptyArray.slice() }],          // dropdown with defaults from theme
-      [{ 'font': this.emptyArray.slice() }],
-      [{ 'align': this.emptyArray.slice() }],
-
-      ['clean'],                                         // remove formatting button
-
-      ['link', 'image', 'video']                         // link and image, video
-    ]
-  };
-
-  @Input() theme: string;
-  @Input() modules: { [index: string]: Object };
-  @Input() readOnly: boolean;
-  @Input() placeholder: string;
-  @Input() maxLength: number;
-  @Input() minLength: number;
-  @Input() required: boolean;
-  @Input() formats: string[];
-  @Input() bounds: HTMLElement | string;
-
   @Output() onEditorCreated: EventEmitter<any> = new EventEmitter();
   @Output() onContentChanged: EventEmitter<any> = new EventEmitter();
   @Output() onSelectionChanged: EventEmitter<any> = new EventEmitter();
@@ -79,24 +44,10 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
   constructor(private elementRef: ElementRef) { }
 
   ngAfterViewInit() {
-    const modules: any = this.modules || this.defaultModules;
-    let placeholder = 'Insert text here ...';
-
-    if (this.placeholder !== null && this.placeholder !== undefined) {
-      placeholder = this.placeholder.trim();
-    }
-
     this.editorElem = this.elementRef.nativeElement.querySelector('.editor');
-
-    this.quillEditor = new Quill(this.editorElem, {
-      modules: modules,
-      placeholder: placeholder,
-      readOnly: this.readOnly || false,
-      theme: this.theme || 'snow',
-      formats: this.formats,
-      bounds: this.bounds || document.body
-    });
-
+    this.quillEditor = new Editor(this.editorElem).editor;
+    this.quillEditor.setText('Hello\nWorld!\n');
+    console.log(this.quillEditor.setSelection(0, 4))
     if (this.content) {
       const contents = this.quillEditor.clipboard.convert(this.content);
       this.quillEditor.setContents(contents);
@@ -149,7 +100,6 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
 
   writeValue(currentValue: any) {
     this.content = currentValue;
-
     if (this.quillEditor) {
       if (currentValue) {
         this.quillEditor.setContents(this.quillEditor.clipboard.convert(this.content));
@@ -159,7 +109,7 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
     }
   }
 
-  registerOnChange(fn: Function): void {
+  registerOnChange(fn: Function): void   {
     this.onModelChange = fn;
   }
 

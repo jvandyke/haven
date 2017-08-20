@@ -1,5 +1,5 @@
 <div *ngIf="visible" class="dialog">
-  <h5>{{details.title}}</h5>
+  <!-- <h5>{{details.title}}</h5> -->
   <app-editor [(ngModel)]="details.title"></app-editor>
   <button *ngIf="closable" (click)="close()" aria-label="Close" class="close">X</button>
 </div>
