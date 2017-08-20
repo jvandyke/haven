@@ -5,7 +5,7 @@ export class Editor {
   editor;
   defaultModules: { [index: string]: Object } = {
     toolbar: [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['bold', 'italic', 'underline'],        // toggled buttons
       ['blockquote', 'code-block'],
       [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     ],
