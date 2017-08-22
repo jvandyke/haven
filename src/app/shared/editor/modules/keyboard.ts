@@ -9,17 +9,23 @@ export const bindings = {
   spaceToLink: {
     collapsed: true,
     key: ' ',
+    prefix: /https?:\/\/[^\s]+/,
     handler: (() => {
       let prevOffset = 0;
       return function (range, context) {
-        const regex = /https?:\/\/[^\s]+/;
+        let url;
+        const regex = /https?:\/\/[^\s]+/g;
         const text = this.quill.getText(prevOffset, range.index);
         const match = text.match(regex);
         if (match === null) {
           prevOffset = range.index;
           return true;
         }
-        const url = match[0];
+        if (match.length > 1) {
+          url = match[match.length - 1];
+        } else {
+          url = match[0];
+        }
         const ops = [];
         ops.push({ retain: range.index - url.length });
         ops.push({ delete: url.length });
