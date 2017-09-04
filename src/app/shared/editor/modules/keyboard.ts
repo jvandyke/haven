@@ -1,9 +1,23 @@
+
 export const bindings = {
   tab: {
     key: 9,
     offset: 0,
     handler: function(range, context) {
       this.quill.format('indent', '+1', 'user');
+    }
+  },
+  threeDashesDivider: {
+    key: 189,
+    offset: 2,
+    handler: function (range, context) {
+      if (context.prefix !== '--') {
+        return true;
+      }
+      this.quill.insertText(range.index, '\n', 'user');
+      this.quill.insertEmbed(range.index + 1, 'divider', true, 'user');
+      this.quill.setSelection(range.index + 2, 'silent');
+      this.quill.deleteText(range.index - 2, 2);
     }
   },
   spaceToLink: {

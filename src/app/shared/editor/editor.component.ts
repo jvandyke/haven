@@ -46,8 +46,7 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
   ngAfterViewInit() {
     this.editorElem = this.elementRef.nativeElement.querySelector('.editor');
     this.quillEditor = new Editor(this.editorElem).editor;
-    this.quillEditor.setText('Hello\nWorld!\n');
-    console.log(this.quillEditor.setSelection(0, 4))
+
     if (this.content) {
       const contents = this.quillEditor.clipboard.convert(this.content);
       this.quillEditor.setContents(contents);

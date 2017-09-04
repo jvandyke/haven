@@ -2,6 +2,7 @@ import * as Quill from 'quill';
 import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
 import { convertUrlToLink } from './modules/clipboard';
+import { DividerBlot } from './modules/divider';
 
 export class Editor {
   editor;
@@ -21,6 +22,7 @@ export class Editor {
   };
   constructor(editorElem: HTMLElement, options = {}) {
     const opts = Object.assign(this.defaultOptions, options);
+    Quill.register(DividerBlot);
     this.editor = new Quill(editorElem, opts);
     this.editor.clipboard.addMatcher(convertUrlToLink.nodeType, convertUrlToLink.matcher);
   }
