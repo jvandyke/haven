@@ -3,7 +3,7 @@ import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
 import { convertUrlToLink } from './modules/clipboard';
 import { DividerBlot } from './modules/divider';
-import { ImageDrop } from 'quill-image-drop-module';
+import ImageDrop from 'quill-image-drop-module';
 
 
 export class Editor {
@@ -20,7 +20,7 @@ export class Editor {
   defaultOptions = {
     modules: this.defaultModules,
     readOnly: false,
-    theme: 'snow',
+    theme: 'bubble',
     bounds: document.body
   };
   constructor(editorElem: HTMLElement, options = {}) {
