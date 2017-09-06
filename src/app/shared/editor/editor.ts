@@ -3,6 +3,8 @@ import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
 import { convertUrlToLink } from './modules/clipboard';
 import { DividerBlot } from './modules/divider';
+import { ImageDrop } from 'quill-image-drop-module';
+
 
 export class Editor {
   editor;
@@ -12,7 +14,8 @@ export class Editor {
       ['blockquote', 'code-block'],
       [{ 'header': 1 }, { 'header': 2 }],               // custom button values
     ],
-    keyboard: { bindings }
+    keyboard: { bindings },
+    imageDrop: true
   };
   defaultOptions = {
     modules: this.defaultModules,
@@ -23,6 +26,7 @@ export class Editor {
   constructor(editorElem: HTMLElement, options = {}) {
     const opts = Object.assign(this.defaultOptions, options);
     Quill.register(DividerBlot);
+    Quill.register('modules/imageDrop', ImageDrop);
     this.editor = new Quill(editorElem, opts);
     this.editor.clipboard.addMatcher(convertUrlToLink.nodeType, convertUrlToLink.matcher);
   }

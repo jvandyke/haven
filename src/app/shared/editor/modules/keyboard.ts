@@ -31,6 +31,7 @@ export const bindings = {
         const regex = /https?:\/\/[^\s]+/g;
         const text = this.quill.getText(prevOffset, range.index);
         const match = text.match(regex);
+
         if (match === null) {
           prevOffset = range.index;
           return true;
@@ -41,7 +42,10 @@ export const bindings = {
           url = match[0];
         }
         const ops = [];
-        ops.push({ retain: range.index - url.length });
+        // only retain if non-zero. link is in the beginning
+        if (range.index - url.length) {
+          ops.push({ retain: range.index - url.length });
+        }
         ops.push({ delete: url.length });
         ops.push({ insert: url, attributes: { link: url } });
         this.quill.updateContents({ ops });
