@@ -1,9 +1,10 @@
 import * as Quill from 'quill';
 import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
-import { convertUrlToLink } from './modules/clipboard';
+import { convertUrlToLink, embedVideos } from './modules/clipboard';
 import { DividerBlot } from './modules/divider';
 import ImageDrop from 'quill-image-drop-module';
+import CustomVideoBlot from './modules/video-blot';
 
 
 export class Editor {
@@ -26,8 +27,10 @@ export class Editor {
   constructor(editorElem: HTMLElement, options = {}) {
     const opts = Object.assign(this.defaultOptions, options);
     Quill.register(DividerBlot);
+    Quill.register(CustomVideoBlot);
     Quill.register('modules/imageDrop', ImageDrop);
     this.editor = new Quill(editorElem, opts);
-    this.editor.clipboard.addMatcher(convertUrlToLink.nodeType, convertUrlToLink.matcher);
+    // this.editor.clipboard.addMatcher(convertUrlToLink.nodeType, convertUrlToLink.matcher);
+    this.editor.clipboard.addMatcher(embedVideos.nodeType, embedVideos.matcher);
   }
 }

@@ -1,3 +1,5 @@
+import Delta from 'quill-delta';
+
 export const convertUrlToLink = {
   nodeType: Node.TEXT_NODE,
   matcher: (node, delta) => {
@@ -22,4 +24,38 @@ export const convertUrlToLink = {
     }
     return delta;
   }
+}
+
+export const embedVideos = {
+  nodeType: Node.TEXT_NODE,
+  matcher: (node, delta) => {
+    const url = buildYoutubeUrl(node.data);
+    if (!url) {
+      return delta;
+    }
+    const embedDelta = new Delta()
+      .delete(node.data.length)
+      .insert('\n\n')
+      .insert({ video: url }, {
+        border: 0,
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        position: 'absolute'
+      })
+      .insert('\n\n');
+    return delta.compose(embedDelta);
+  }
+}
+
+/**
+ * JavaScript function to match (and return) the video Id
+ * of any valid Youtube Url, given as input string.
+ * @author: Stephan Schmitz <eyecatchup@gmail.com>
+ * @url: https://stackoverflow.com/a/10315969/624466
+ */
+function buildYoutubeUrl(url) {
+  const p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return (url.match(p)) ? `https://youtube.com/embed/${RegExp.$1}` : false;
 }
