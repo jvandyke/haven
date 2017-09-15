@@ -1,4 +1,4 @@
-import * as Quill from 'quill';
+import Quill from 'quill';
 
 const BlockEmbed = Quill.import('blots/block/embed');
 const Link = Quill.import('formats/link');

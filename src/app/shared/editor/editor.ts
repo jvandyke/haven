@@ -1,4 +1,4 @@
-import * as Quill from 'quill';
+import Quill from 'quill';
 import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
 import { convertUrlToLink, embedVideos } from './modules/clipboard';
