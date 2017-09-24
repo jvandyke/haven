@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { FormsModule } from '@angular/forms';
 import { EditorModule } from './shared/editor/editor.module';
+import { UploadService } from './shared/editor/shared/upload.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { EditorModule } from './shared/editor/editor.module';
     EditorModule,
     CoreModule.forRoot()
   ],
-  providers: [],
+  providers: [UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,3 @@
-import { Editor } from './editor';
 import {
   AfterViewInit,
   Component,
@@ -10,7 +9,6 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-
 import {
   NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
@@ -18,6 +16,9 @@ import {
   Validator
 } from '@angular/forms';
 
+import { Editor } from './editor';
+import { UploadService } from './shared/upload.service';
+import { handlePaste, handleDrop } from './modules/drop';
 
 @Component({
   selector: 'app-editor',
@@ -41,11 +42,16 @@ export class EditorComponent implements AfterViewInit, ControlValueAccessor, OnC
   onModelChange: Function = () => { };
   onModelTouched: Function = () => { };
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    private uploadService: UploadService,
+    private elementRef: ElementRef
+  ) { }
 
   ngAfterViewInit() {
     this.editorElem = this.elementRef.nativeElement.querySelector('.editor');
     this.quillEditor = new Editor(this.editorElem).editor;
+    this.quillEditor.root.addEventListener('drop', handleDrop.bind(this.quillEditor.getModule('imageDrop'), this.uploadService), false);
+    this.quillEditor.root.addEventListener('paste', handlePaste.bind(this.quillEditor.getModule('imageDrop'), this.uploadService), false);
 
     if (this.content) {
       const contents = this.quillEditor.clipboard.convert(this.content);

@@ -3,8 +3,8 @@ import Delta from 'quill-delta';
 import { bindings } from './modules/keyboard';
 import { convertUrlToLink, embedVideos } from './modules/clipboard';
 import { DividerBlot } from './modules/divider';
-import ImageDrop from 'quill-image-drop-module';
 import CustomVideoBlot from './modules/video-blot';
+import ImageDrop from './modules/drop';
 
 
 export class Editor {
