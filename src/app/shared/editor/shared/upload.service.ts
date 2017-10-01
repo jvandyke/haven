@@ -30,7 +30,7 @@ export class UploadService {
         // upload success
         upload.url = uploadTask.snapshot.downloadURL;
         upload.name = upload.file.name;
-        console.log('Successfully Uploaded!');
+        console.log('Successfully Uploaded!', upload);
         // this.saveFileData(upload)
         return undefined;
       }

@@ -104,6 +104,7 @@ export default class ImageDrop {
       if (file.type.match(/\.(document|sheet|presentation)$/i)) {
         const currentUpload = new Upload(file);
         uploadService.pushUpload(currentUpload);
+        this.quill.insertEmbed(0, 'fileHolder', 'user');
         return;
       }
       if (!file.type.match(/^image\/(gif|jpe?g|a?png|svg|webp|bmp|vnd\.microsoft\.icon)/i)) {
